@@ -33,7 +33,7 @@ fi
 
 for it in $(seq 1 $i); do
         echo -e $it'/'$i
-        echo $(curl -s $(getMethod 100 $(expr $(expr $it - 1) \* 100)))$([[ $it -eq 2 ]] && echo "" || echo ",") >> $file
+        echo $(curl -s $(getMethod 100 $(expr $(expr $it - 1) \* 100)))$([[ $it -eq $i ]] && echo "" || echo ",") >> $file
         #sleep 2
 done
 echo ']}' >> $file
