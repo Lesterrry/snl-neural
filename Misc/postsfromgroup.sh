@@ -1,4 +1,11 @@
 #!/bin/bash
+#postsfromgroup.sh
+#COPYRIGHT LESTERRRY, 2020
+#Script downloads all publicly available posts from a specific vk group
+#Sudo is required because script can be launched from bin and will export data there
+#Retrieve your vk api tokenand replace "YOUR TOKEN" with it
+#Uncomment row 44 in order to reduce load on VK servers
+
 start=`date +%s`
 
 token="YOUR TOKEN"
