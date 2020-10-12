@@ -2,9 +2,11 @@
 '''''''''''''''''''''''
 COPYLEFT LESTERRRY, 2020
 '''''''''''''''''''''''
-#This script generates text based on 'model.bin' file, retrieved from learning. 
-#Make sure file is located in script directore and is readable.
-
+#This script generates text based on 'model.bin' file, retrieved from learning.
+#Make sure file is located in script directory and is readable.
+#Serve -o argument to simply print predicrion
+#Serve -p argument if picture is needed
+import sys
 import os
 import pickle
 from collections import Counter
@@ -12,16 +14,21 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import pic #Comment this if you're not going to generate pics
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 #Replace this with 'CtI' dict retrieved while learning
-CTI = {' ': 0, 'о': 1, 'а': 2, 'е': 3, 'т': 4, 'и': 5, 'н': 6, 'с': 7, 'л': 8, 'р': 9, 'в': 10, 'к': 11, 'м': 12, 'д': $
+CTI = {' ': 0, 'о': 1, 'а': 2, 'е': 3, 'т': 4, 'и': 5, 'н': 6, 'с': 7, 'л': 8, 'р': 9, 'в': 10, 'к': 11, 'м': 12, 'д': 13, 'у': 14, 'п': 15, 'ь': 16, 'я': 17, ',': 18, 'ы': 19, 'б': 20,$
 #Replace this with 'ItC' dict retrieved while learning
-ITC = {0: ' ', 1: 'о', 2: 'а', 3: 'е', 4: 'т', 5: 'и', 6: 'н', 7: 'с', 8: 'л', 9: 'р', 10: 'в', 11: 'к', 12: 'м', 13: '$
+ITC = {0: ' ', 1: 'о', 2: 'а', 3: 'е', 4: 'т', 5: 'и', 6: 'н', 7: 'с', 8: 'л', 9: 'р', 10: 'в', 11: 'к', 12: 'м', 13: 'д', 14: 'у', 15: 'п', 16: 'ь', 17: 'я', 18: ',', 19: 'ы', 20: 'б',$
 
-file = open(os.path.join(__location__, 'model.bin'), "rb")
+#Replace this with prediction length you want
+PRED_LEN = 130
+
+#Enter file path here
+file = open(os.path.join(__location__, 'model55.bin'), "rb")
 
 class TextRNN(nn.Module):
     def __init__(self, input_size, hidden_size, embedding_size, n_layers=1):
@@ -64,14 +71,23 @@ def evaluate(model, char_to_idx, idx_to_char, start_text=' ', prediction_len=200
     return predicted_text
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-mod = torch.load(file, map_location='cpu')
+mod = torch.load(file, map_location=device)
 mod.eval()
-print(evaluate(
-    mod,
-    CTI,
-    ITC,
-    temp=0.3,
-    prediction_len=200,
-    start_text=' '   
+
+text = (evaluate(
+        mod,
+        CTI,
+        ITC,
+        temp=0.3,
+        prediction_len=PRED_LEN,
+        start_text=' '
+        )
     )
-)
+text = text.split(' ')
+text = text[1:-1]
+text = ' '.join(text)
+text = text.lower().capitalize()
+if '-o' in sys.argv:
+    print(text)
+elif '-p' in sys.argv:
+    pic.draw(text)
