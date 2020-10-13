@@ -1,21 +1,27 @@
-<html>
-<!-- Written, designed and debugged by Lesterrry -->
-<head>
-        <meta charset="UTF-8">
-        <?php
-                error_reporting(E_ALL);
-                ini_set('display_errors', 1);
-        ?>
 </head>
-<body>
-        <img src="http://fetchdev.host/neural/pics/<?php
-                error_reporting(E_ALL);
-                ini_set('display_errors', 1);
-                $files = scandir('/var/www/html/neural/pics');
-                unset($files[0]);
-                unset($files[1]);
-                //print_r($files);
-                echo($files[array_rand($files)]);
-        ?>" />
+<body style="background-color: RGB(36,36,36)">
+                <img height="230" width="600" src="pics/<?php
+                        error_reporting(E_ALL);
+                        ini_set('display_errors', 1);
+                        $files = scandir('/var/www/html/neural/pics');
+                        if (($key = array_search('index.html', $files)) !== false) {
+                                unset($files[$key]);
+                        }
+                        unset($files[0]);
+                        unset($files[1]);
+                        //print_r($files);
+                        echo($files[array_rand($files)]);
+                ?>" />
+
+                <form action="index.php" method="post">
+                        <input type="submit" name="act" value=<?php if (isset($_POST['act']) && $_POST['act'] === "Больше!"){ echo('Еще!'); } else { echo('Больше!'); }?>>
+                </form>
+
+        <div style= "position:absolute;right:4;bottom:6;margin-bottom:0">
+                <a href= "/"><img src= "/data/fetchlogo.png" alt="FETCH LOGO" width= "53" height= "50"></a>
+        </div>
+        <div style= "position:absolute;left:6;bottom:6;margin-bottom:0">
+                <a href= "https://github.com/Lesterrry/snl-neural"><img src= "/data/github.png" alt="GITHUB LOGO" width= "53" height= "50"></a>
+        </div>
 </body>
 </html>
