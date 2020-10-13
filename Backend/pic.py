@@ -16,11 +16,10 @@ def draw(txt):
    txt = wrapper.fill(txt)
    img = Image.open("dummy.jpg")
    draw = ImageDraw.Draw(img)
-   # font = ImageFont.truetype(<font-file>, <font-size>)
    font = ImageFont.truetype("Verdana.ttf", 23)
-   # draw.text((x, y),"Sample Text",(r,g,b))
    draw.text((55, 155),txt,(255,255,255),font=font)
    img.save(f'/var/www/html/neural/pics/{int(time.time())}.jpg')
 
-text = ' '.join(sys.argv[1:])
-draw(text)
+#Uncomment to use separately
+#text = ' '.join(sys.argv[1:])
+#draw(text)
