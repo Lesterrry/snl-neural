@@ -94,9 +94,11 @@ elif '-p' in sys.argv:
     if '-c' in sys.argv:
         i = 0
         while(True):
-            print(i)
+            #print(i)
             i += 1
             #text = (evaluate(mod, CTI, ITC, temp=0.3, prediction_len=PRED_LEN, start_text=' '))
+            t = textev()
+            print("\r>>", i, t, end='')
             pic.draw(textev())
     else:
         pic.draw(textev())
